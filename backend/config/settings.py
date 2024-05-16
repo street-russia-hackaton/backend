@@ -14,11 +14,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost 127.0.0.1 84.201.175.61").split(
-    " "
-)
-CSRF_TRUSTED_ORIGINS = os.environ["CSRF_TRUSTED_ORIGINS"].split(" ")
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(" ")
+ALLOWED_HOSTS = ("localhost", "127.0.0.1")
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -27,6 +23,9 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "data",
+    "info",
+    "users",
 ]
 
 LOCAL_APPS = [
@@ -117,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = "UTC"
 
