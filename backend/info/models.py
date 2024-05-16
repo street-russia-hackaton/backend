@@ -24,17 +24,20 @@ class Events(models.Model):
     events_disciplines = models.ForeignKey(
         Disciplines,
         on_delete=models.CASCADE,
-        verbose_name="Дисциплины"
+        verbose_name="Дисциплины",
+        related_name='events'
     )
     events_city = models.ForeignKey(
         Cities,
         on_delete=models.CASCADE,
-        verbose_name="Город"
+        verbose_name="Город",
+        related_name='events'
     )
     events_curator = models.ForeignKey(
         Users,
         on_delete=models.CASCADE,
-        verbose_name="Организатор мероприятия"
+        verbose_name="Организатор мероприятия",
+        related_name='events'
     )
 
     def __str__(self):
@@ -49,12 +52,14 @@ class FavoriteEvents(models.Model):
     user = models.ForeignKey(
         Users,
         on_delete=models.CASCADE,
-        verbose_name="Пользователь"
+        verbose_name="Пользователь",
+        related_name="favorite_events"
     )
     events = models.ForeignKey(
         Events,
         on_delete=models.CASCADE,
-        verbose_name="Мероприятие"
+        verbose_name="Мероприятие",
+        related_name="favorite_by"
     )
 
     def __str__(self):
@@ -69,12 +74,14 @@ class RegisteredEvents(models.Model):
     user = models.ForeignKey(
         Users,
         on_delete=models.CASCADE,
-        verbose_name="Пользователь"
+        verbose_name="Пользователь",
+        related_name="registered_events"
     )
     events = models.ForeignKey(
         Events,
         on_delete=models.CASCADE,
-        verbose_name="Мероприятие"
+        verbose_name="Мероприятие",
+        related_name="registered_by"
     )
 
     def __str__(self):
@@ -100,27 +107,32 @@ class RegionalDivisions(models.Model):
     regional_divisions_info = models.TextField(
         verbose_name="Описание регионального отделения"
     )
-    regional_divisions_сities = models.ManyToManyField(
+    regional_divisions_сity = models.ManyToManyField(
         Cities,
-        verbose_name="Список городов"
+        verbose_name="Список городов",
+        related_name="regional_divisions"
     )
-    regional_divisions_regions = models.OneToOneField(
+    regional_divisions_region = models.OneToOneField(
         Regions,
         on_delete=models.CASCADE,
-        verbose_name="Регион"
+        verbose_name="Регион",
+        related_name="regional_divisions"
     )
-    regional_divisions_disciplines = models.ManyToManyField(
+    regional_divisions_discipline = models.ManyToManyField(
         Disciplines,
-        verbose_name="Дисциплина"
+        verbose_name="Дисциплина",
+        related_name="regional_divisions"
     )
-    regional_divisions_events = models.ManyToManyField(
+    regional_divisions_event = models.ManyToManyField(
         Events,
-        verbose_name="Мероприятия в данном регионе"
+        verbose_name="Мероприятия в данном регионе",
+        related_name="regional_divisions"
     )
-    regional_divisions_curators = models.ForeignKey(
+    regional_divisions_curator = models.ForeignKey(
         Users,
          on_delete=models.CASCADE,
-        verbose_name="Руководитель регионального отделения"
+        verbose_name="Руководитель регионального отделения",
+        related_name="regional_divisions"
     )
 
     def __str__(self):
@@ -146,17 +158,20 @@ class News(models.Model):
     news_text = models.TextField(
         verbose_name="Описание новости"
     )
-    regional_divisions = models.ManyToManyField(
+    news_regional_divisions = models.ManyToManyField(
         RegionalDivisions,
-        verbose_name="Региональные отделения"
+        verbose_name="Региональные отделения",
+        related_name="news"
     )
-    disciplines = models.ManyToManyField(
+    news_disciplines = models.ManyToManyField(
         Disciplines,
-        verbose_name="Дисциплины"
+        verbose_name="Дисциплины",
+        related_name="news"
     )
-    autors = models.ManyToManyField(
+    news_autors = models.ManyToManyField(
         Users,
-        verbose_name="Авторы"
+        verbose_name="Авторы",
+        related_name="news"
     )
 
     def __str__(self):
@@ -171,12 +186,14 @@ class FollowersNews(models.Model):
     user = models.ForeignKey(
         Users,
         on_delete=models.CASCADE,
-        verbose_name="Пользователь"
+        verbose_name="Пользователь",
+        related_name="followers_news"
     )
     news = models.ForeignKey(
         News,
         on_delete=models.CASCADE,
-        verbose_name="Новости"
+        verbose_name="Новости",
+        related_name="followed_by"
     )
 
     def __str__(self):

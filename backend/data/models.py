@@ -92,16 +92,30 @@ class Partners(models.Model):
         verbose_name_plural = "Партнеры"
 
 
+class ObjectSportImage(models.Model):
+    object_sport_image = models.ImageField(
+        upload_to='images/object_sport/',
+        verbose_name="Фотография спортивного обьекта"
+    )
+
+    def __str__(self):
+        return str(self.object_sport_image)
+
+    class Meta:
+            verbose_name = "Фотография спортивного обьекта"
+            verbose_name_plural = "Фотография спортивных обьектов"
+
+
 class ObjectSport(models.Model):
     object_sport_title = models.CharField(
         max_length=100,
         verbose_name="Название спортивного объекта"
     )
     object_sport_image = models.ManyToManyField(
-        'ObjectSportImage',
+        ObjectSportImage,
         verbose_name="Фотография спортивного обьекта"
     )
-    video_object_sport = models.URLField(
+    object_sport_video = models.URLField(
         verbose_name="Ссылка на видео объекта спорта"
     )
     object_sport_indoor_outdoor = models.CharField(
@@ -123,18 +137,4 @@ class ObjectSport(models.Model):
     class Meta:
         verbose_name = "Спортивный объект"
         verbose_name_plural = "Спортивные объекты"
-
-
-class ObjectSportImage(models.Model):
-    object_sport_image = models.ImageField(
-        upload_to='images/object_sport/',
-        verbose_name="Фотография спортивного обьекта"
-    )
-
-    def __str__(self):
-        return str(self.object_sport_image)
-
-    class Meta:
-            verbose_name = "Фотография спортивного обьекта"
-            verbose_name_plural = "Фотография спортивных обьектов"
             

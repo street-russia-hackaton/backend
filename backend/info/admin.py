@@ -6,13 +6,13 @@ from .models import Events, FavoriteEvents, RegisteredEvents
 
 
 class RegionalDivisionsAdmin(admin.ModelAdmin):
-    list_display = ('regional_divisions_title', 'regional_divisions_regions',)
-    list_filter = ('regional_divisions_regions',)
+    list_display = ('regional_divisions_title', 'regional_divisions_region',)
+    list_filter = ('regional_divisions_region',)
 
 
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('news_title', 'news_date',)
-    list_filter = ('regional_divisions', 'disciplines', 'autors',)
+    list_filter = ('news_regional_divisions', 'news_disciplines', 'news_autors',)
 
 
 class EventsAdmin(admin.ModelAdmin):
