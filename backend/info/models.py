@@ -1,105 +1,109 @@
+from core.constants import FieldLength
+from data.models import Cities, Regions
 from django.db import models
-from datetime import date
-
-from data.models import Cities, Regions, Disciplines
 from users.models import Users
 
+from .choice_classes import ObjectTypeChoices, PartnerRoleChoices
 
-class Events(models.Model):
-    events_title = models.CharField(
-        max_length=100,
-        verbose_name="Название мероприятия"
+
+class Disciplines(models.Model):
+    disciplines_title = models.CharField(
+        max_length=FieldLength.MAX_LENGTH_TITLE, verbose_name="Название дисциплины"
     )
-    events_image = models.ImageField(
-        upload_to='images/events/',
-        verbose_name="Изображение мероприятия"
+    disciplines_image = models.ImageField(
+        upload_to="images/disciplines/", verbose_name="Фотография дисциплины"
     )
-    events_date = models.DateField(
-        default=date.today,
-        verbose_name="Дата мероприятия"
+    disciplines_video_url = models.URLField(verbose_name="Ссылка на видео", blank=True)
+    disciplines_information = models.TextField(verbose_name="Информация о дисциплине")
+
+    def __str__(self):
+        return self.disciplines_title
+
+    class Meta:
+        verbose_name = "Дисциплина"
+        verbose_name_plural = "Дисциплины"
+
+
+class Partners(models.Model):
+    partners_title = models.CharField(
+        max_length=FieldLength.MAX_LENGTH_TITLE, verbose_name="Название партнера"
     )
-    events_information = models.TextField(
-        verbose_name="Информация о мероприятии"
+    partners_category = models.CharField(
+        max_length=FieldLength.MAX_LENGTH_TITLE,
+        choices=PartnerRoleChoices,
+        default=PartnerRoleChoices.STRATEGIC,
+        verbose_name="Категория партнера",
     )
-    events_disciplines = models.ForeignKey(
-        Disciplines,
-        on_delete=models.CASCADE,
-        verbose_name="Дисциплины",
-        related_name='events'
+    partners_logo = models.ImageField(
+        upload_to="images/partners/", verbose_name="Логотип партнера"
     )
-    events_city = models.ForeignKey(
-        Cities,
-        on_delete=models.CASCADE,
-        verbose_name="Город",
-        related_name='events'
-    )
-    events_curator = models.ForeignKey(
-        Users,
-        on_delete=models.CASCADE,
-        verbose_name="Организатор мероприятия",
-        related_name='events'
+    partners_url = models.URLField(
+        verbose_name="Ссылка на сайт партнера",
+        blank=True,
     )
 
     def __str__(self):
-        return self.events_title
-    
+        return self.partners_title
+
     class Meta:
-        verbose_name = "Мероприятие"
-        verbose_name_plural = "Мероприятия"
+        verbose_name = "Партнер"
+        verbose_name_plural = "Партнеры"
 
 
-class FavoriteEvents(models.Model):
-    user = models.ForeignKey(
-        Users,
-        on_delete=models.CASCADE,
-        verbose_name="Пользователь",
-        related_name="favorite_events"
-    )
-    events = models.ForeignKey(
-        Events,
-        on_delete=models.CASCADE,
-        verbose_name="Мероприятие",
-        related_name="favorite_by"
+class ObjectSportImage(models.Model):
+    object_sport_image = models.ImageField(
+        upload_to="images/object_sport/", verbose_name="Фотография спортивного обьекта"
     )
 
     def __str__(self):
-        return f"{self.user} - {self.events}"
-    
+        return str(self.object_sport_image)
+
     class Meta:
-        verbose_name = "Избранное мероприятие"
-        verbose_name_plural = "Избранные мероприятия"
+        verbose_name = "Фотография спортивного обьекта"
+        verbose_name_plural = "Фотография спортивных обьектов"
 
 
-class RegisteredEvents(models.Model):
-    user = models.ForeignKey(
-        Users,
-        on_delete=models.CASCADE,
-        verbose_name="Пользователь",
-        related_name="registered_events"
+class ObjectSport(models.Model):
+    object_sport_title = models.CharField(
+        max_length=FieldLength.MAX_LENGTH_TITLE,
+        verbose_name="Название спортивного объекта",
     )
-    events = models.ForeignKey(
-        Events,
-        on_delete=models.CASCADE,
-        verbose_name="Мероприятие",
-        related_name="registered_by"
+    object_sport_image = models.ManyToManyField(
+        ObjectSportImage, verbose_name="Фотография спортивного обьекта"
+    )
+    object_sport_video = models.URLField(
+        verbose_name="Ссылка на видео объекта спорта", blank=True
+    )
+    object_sport_type = models.CharField(
+        max_length=FieldLength.MAX_LENGTH_TITLE,
+        choices=ObjectTypeChoices,
+        default=ObjectTypeChoices.INDOOR,
+        verbose_name="Помещение (закрытое/открытое)",
+    )
+    object_sport_info = models.TextField(verbose_name="Описание объекта")
+    object_disciplines = models.ManyToManyField(
+        Disciplines, verbose_name="Дисциплины объекта"
+    )
+    object_sport_address = models.CharField(
+        max_length=FieldLength.MAX_LENGTH_TITLE, verbose_name="Адрес обьекта"
     )
 
     def __str__(self):
-        return f"{self.user} - {self.events}"
+        return self.object_sport_title
 
     class Meta:
-        verbose_name = "Зарегистрированный пользователь на мероприятие"
-        verbose_name_plural = "Зарегистрированные пользователи на мероприятия"
+        verbose_name = "Спортивный объект"
+        verbose_name_plural = "Спортивные объекты"
 
 
 class RegionalDivisions(models.Model):
     regional_divisions_title = models.CharField(
-        max_length=100,
-        verbose_name="Название регионального отделения"
+        max_length=FieldLength.MAX_LENGTH_TITLE,
+        verbose_name="Название регионального отделения",
     )
     regional_divisions_image = models.ImageField(
-        upload_to='images/regional_divisions/',
-        verbose_name="Фотографии региональных отделений"
+        upload_to="images/regional_divisions/",
+        verbose_name="Фотографии региональных отделений",
     )
     regional_divisions_information = models.TextField(
         verbose_name="Общая информация регионального отделения"
@@ -108,31 +112,27 @@ class RegionalDivisions(models.Model):
         verbose_name="Описание регионального отделения"
     )
     regional_divisions_сity = models.ManyToManyField(
-        Cities,
-        verbose_name="Список городов",
-        related_name="regional_divisions"
+        Cities, verbose_name="Список городов", related_name="regional_divisions"
     )
     regional_divisions_region = models.OneToOneField(
         Regions,
         on_delete=models.CASCADE,
         verbose_name="Регион",
-        related_name="regional_divisions"
+        related_name="regional_divisions",
+    )
+    regional_divisions_sport_obj = models.ManyToManyField(
+        ObjectSport,
+        verbose_name="Спортивные объекты",
+        related_name="regional_sport_objects",
     )
     regional_divisions_discipline = models.ManyToManyField(
-        Disciplines,
-        verbose_name="Дисциплина",
-        related_name="regional_divisions"
-    )
-    regional_divisions_event = models.ManyToManyField(
-        Events,
-        verbose_name="Мероприятия в данном регионе",
-        related_name="regional_divisions"
+        Disciplines, verbose_name="Дисциплина", related_name="regional_divisions"
     )
     regional_divisions_curator = models.ForeignKey(
         Users,
-         on_delete=models.CASCADE,
+        on_delete=models.CASCADE,
         verbose_name="Руководитель регионального отделения",
-        related_name="regional_divisions"
+        related_name="regional_divisions",
     )
 
     def __str__(self):
@@ -141,64 +141,3 @@ class RegionalDivisions(models.Model):
     class Meta:
         verbose_name = "Региональное отделение"
         verbose_name_plural = "Региональные отделения"
-
-
-class News(models.Model):
-    news_title = models.CharField(
-        max_length=100,
-        verbose_name="Название новости"
-    )
-    news_image = models.ImageField(
-        upload_to='images/news/',
-        verbose_name="Фотография"
-    )
-    news_date = models.DateField(
-        verbose_name="Дата"
-    )
-    news_text = models.TextField(
-        verbose_name="Описание новости"
-    )
-    news_regional_divisions = models.ManyToManyField(
-        RegionalDivisions,
-        verbose_name="Региональные отделения",
-        related_name="news"
-    )
-    news_disciplines = models.ManyToManyField(
-        Disciplines,
-        verbose_name="Дисциплины",
-        related_name="news"
-    )
-    news_autors = models.ManyToManyField(
-        Users,
-        verbose_name="Авторы",
-        related_name="news"
-    )
-
-    def __str__(self):
-        return self.news_title
-
-    class Meta:
-        verbose_name = "Новость"
-        verbose_name_plural = "Новости"
-
-
-class FollowersNews(models.Model):
-    user = models.ForeignKey(
-        Users,
-        on_delete=models.CASCADE,
-        verbose_name="Пользователь",
-        related_name="followers_news"
-    )
-    news = models.ForeignKey(
-        News,
-        on_delete=models.CASCADE,
-        verbose_name="Новости",
-        related_name="followed_by"
-    )
-
-    def __str__(self):
-        return f"{self.user} - {self.news}"
-
-    class Meta:
-        verbose_name = "Подписчик на новость"
-        verbose_name_plural = "Подписчики на новость"

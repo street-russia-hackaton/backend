@@ -1,43 +1,48 @@
 from django.contrib import admin
 
-from .models import RegionalDivisions
-from .models import News, FollowersNews
-from .models import Events, FavoriteEvents, RegisteredEvents
+from .models import (
+    Disciplines,
+    ObjectSport,
+    ObjectSportImage,
+    Partners,
+    RegionalDivisions,
+)
 
 
+@admin.register(ObjectSport)
+class ObjectSportAdmin(admin.ModelAdmin):
+    list_display = ("object_sport_title", "object_sport_type", "object_sport_address")
+    list_filter = ("object_sport_type",)
+
+
+@admin.register(ObjectSportImage)
+class ObjectSportImageAdmin(admin.ModelAdmin):
+    list_display = ("object_sport_image",)
+    list_filter = ("object_sport_image",)
+
+
+@admin.register(Partners)
+class PartnersAdmin(admin.ModelAdmin):
+    list_display = (
+        "partners_title",
+        "partners_category",
+    )
+    list_filter = ("partners_category",)
+
+
+@admin.register(RegionalDivisions)
 class RegionalDivisionsAdmin(admin.ModelAdmin):
-    list_display = ('regional_divisions_title', 'regional_divisions_region',)
-    list_filter = ('regional_divisions_region',)
+    list_display = (
+        "regional_divisions_title",
+        "regional_divisions_region",
+    )
+    list_filter = ("regional_divisions_region",)
 
 
-class NewsAdmin(admin.ModelAdmin):
-    list_display = ('news_title', 'news_date',)
-    list_filter = ('news_regional_divisions', 'news_disciplines', 'news_autors',)
-
-
-class EventsAdmin(admin.ModelAdmin):
-    list_display = ('events_title', 'events_date', 'events_city', 'events_curator')
-    list_filter = ('events_city', 'events_curator')
-
-
-class FavoriteEventsAdmin(admin.ModelAdmin):
-    list_display = ('user', 'events')
-    list_filter = ('user', 'events')
-
-
-class RegisteredEventsAdmin(admin.ModelAdmin):
-    list_display = ('user', 'events')
-    list_filter = ('user', 'events')
-
-
-class FollowersNewsAdmin(admin.ModelAdmin):
-    list_display = ('user', 'news',)
-    list_filter = ('user', 'news',)
-
-
-admin.site.register(FollowersNews, FollowersNewsAdmin)
-admin.site.register(RegionalDivisions, RegionalDivisionsAdmin)
-admin.site.register(News, NewsAdmin)
-admin.site.register(RegisteredEvents, RegisteredEventsAdmin)
-admin.site.register(Events, EventsAdmin)
-admin.site.register(FavoriteEvents, FavoriteEventsAdmin)
+@admin.register(Disciplines)
+class DisciplinesAdmin(admin.ModelAdmin):
+    list_display = (
+        "disciplines_title",
+        "disciplines_video_url",
+    )
+    list_filter = ("disciplines_title",)
