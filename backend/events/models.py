@@ -62,6 +62,22 @@ class Events(models.Model):
         null=True,
         verbose_name="Файл календаря",
     )
+    event_is_pets = models.BooleanField(
+        "Можно с животными",
+        default=False,
+    )
+    event_is_food = models.BooleanField(
+        "Можно ли со своей едой",
+        default=False,
+    )
+    event_is_wc = models.BooleanField(
+        "Есть ли туалет",
+        default=False,
+    )
+    event_is_disabled = models.BooleanField(
+        "Для людей с ограниченными возможностями",
+        default=False,
+    )
 
     def generate_calendar_link(self):
         # Формирование данных для QR-кода/файла
