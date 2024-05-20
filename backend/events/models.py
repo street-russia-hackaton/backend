@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from io import BytesIO
 
 import qrcode
@@ -18,10 +18,10 @@ class Events(models.Model):
         upload_to="images/events/", verbose_name="Изображение мероприятия"
     )
     event_start_date = models.DateTimeField(
-        default=date.today, verbose_name="Дата начала мероприятия"
+        default=datetime.now, verbose_name="Дата начала мероприятия"
     )
     event_end_date = models.DateTimeField(
-        default=date.today, verbose_name="Дата окончания мероприятия"
+        default=datetime.now, verbose_name="Дата окончания мероприятия"
     )
     event_information = models.TextField(verbose_name="Информация о мероприятии")
     event_disciplines = models.ManyToManyField(
@@ -67,8 +67,8 @@ class Events(models.Model):
         # Формирование данных для QR-кода/файла
         qr_meta_start = "BEGIN:VCALENDAR\nBEGIN:VEVENT\n"
         qr_meta_end = "END:VEVENT\nEND:VCALENDAR"
-        cal_start_time = self.event_start_date.strftime("%Y%m%dT%H%M")
-        cal_end_time = self.event_end_date.strftime("%Y%m%dT%H%M")
+        cal_start_time = self.event_start_date.strftime("%Y%m%dT%H%M%S")
+        cal_end_time = self.event_end_date.strftime("%Y%m%dT%H%M%S")
         qr_data_info = (
             f"SUMMARY:{self.event_title}\n"
             f"DESCRIPTION:{self.event_information}\n"

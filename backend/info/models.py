@@ -71,7 +71,9 @@ class ObjectSport(models.Model):
     object_sport_image = models.ManyToManyField(
         ObjectSportImage, verbose_name="Фотография спортивного обьекта"
     )
-    object_sport_video = models.URLField(verbose_name="Ссылка на видео объекта спорта")
+    object_sport_video = models.URLField(
+        verbose_name="Ссылка на видео объекта спорта", blank=True
+    )
     object_sport_type = models.CharField(
         max_length=FieldLength.MAX_LENGTH_TITLE,
         choices=ObjectTypeChoices,
