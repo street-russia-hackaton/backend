@@ -1,13 +1,6 @@
 from django.contrib import admin
 
-from .models import (
-    Cities,
-    Disciplines,
-    ObjectSport,
-    ObjectSportImage,
-    Partners,
-    Regions,
-)
+from .models import Cities, Regions
 
 
 class CitiesAdmin(admin.ModelAdmin):
@@ -20,35 +13,5 @@ class RegionsAdmin(admin.ModelAdmin):
     list_filter = ("region_title",)
 
 
-class ObjectSportAdmin(admin.ModelAdmin):
-    list_display = ("object_sport_title", "object_sport_type", "object_sport_address")
-    list_filter = ("object_sport_type",)
-
-
-class ObjectSportImageAdmin(admin.ModelAdmin):
-    list_display = ("object_sport_image",)
-    list_filter = ("object_sport_image",)
-
-
-class DisciplinesAdmin(admin.ModelAdmin):
-    list_display = (
-        "disciplines_title",
-        "disciplines_video_url",
-    )
-    list_filter = ("disciplines_information",)
-
-
-class PartnersAdmin(admin.ModelAdmin):
-    list_display = (
-        "partners_title",
-        "partners_category",
-    )
-    list_filter = ("partners_category",)
-
-
-admin.site.register(ObjectSportImage, ObjectSportImageAdmin)
 admin.site.register(Cities, CitiesAdmin)
 admin.site.register(Regions, RegionsAdmin)
-admin.site.register(ObjectSport, ObjectSportAdmin)
-admin.site.register(Disciplines, DisciplinesAdmin)
-admin.site.register(Partners, PartnersAdmin)

@@ -3,10 +3,10 @@ from io import BytesIO
 
 import qrcode
 from core.constants import FieldLength
-from data.models import Cities, Disciplines, Partners
+from data.models import Cities
 from django.core.files import File
 from django.db import models
-from info.models import RegionalDivisions
+from info.models import Disciplines, Partners, RegionalDivisions
 from users.models import Users
 
 
@@ -69,7 +69,11 @@ class Events(models.Model):
         qr_meta_end = "END:VEVENT\nEND:VCALENDAR"
         cal_start_time = self.event_start_date.strftime("%Y%m%dT%H%M")
         cal_end_time = self.event_end_date.strftime("%Y%m%dT%H%M")
-        qr_data_info = f"SUMMARY:{self.event_title}\nDESCRIPTION:{self.event_information}\nLOCATION:{self.event_city}\n"
+        qr_data_info = (
+            f"SUMMARY:{self.event_title}\n"
+            f"DESCRIPTION:{self.event_information}\n"
+            f"LOCATION:{self.event_city}\n"
+        )
         qr_data_dates = f"DTSTART:{cal_start_time}\nDTEND:{cal_end_time}\n"
         print(qr_data_dates)
 
@@ -88,8 +92,8 @@ class Events(models.Model):
         img = qr.make_image(fill_color="black", back_color="white")
 
         # Сохранение изображения в байтовый объект
-        buffer = BytesIO()
-        img.save(buffer, format="PNG")
+        qr_buffer = BytesIO()
+        img.save(qr_buffer, format="PNG")
 
         # Сохранение данных в байтовый объект
         ics_buffer = BytesIO()
@@ -97,7 +101,7 @@ class Events(models.Model):
         ics_buffer.seek(0)
 
         # Сохранение изображения как поля модели
-        self.event_qr_code.save(f"qr_code_{self.pk}.png", File(buffer), save=False)
+        self.event_qr_code.save(f"qr_code_{self.pk}.png", File(qr_buffer), save=False)
         # Сохранение данных о событии как поля модели
         self.event_ics_file.save(f"ics_{self.pk}.ics", File(ics_buffer), save=False)
 

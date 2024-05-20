@@ -32,7 +32,7 @@ class Users(AbstractUser):
         unique=True,
     )
     phone = models.CharField(
-        max_length=UserFieldsLength.MAX_LENGTH_NUMBER,
+        max_length=UserFieldsLength.MAX_LENGTH_PHONE,
         verbose_name="Телефон",
         unique=True,
     )
@@ -57,6 +57,9 @@ class Users(AbstractUser):
         upload_to="video_profiles/", verbose_name="Видеовизитка", blank=True
     )
 
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["phone", "email"]
+
     def __str__(self):
         return f"{self.last_name} {self.first_name} {self.middle_name}"
 
@@ -76,18 +79,26 @@ class UserPassport(models.Model):
         related_name="passport",
         verbose_name="Пользователь",
     )
-    passport_series = models.IntegerField(
+    passport_series = models.CharField(
+        max_length=UserFieldsLength.MAX_LENGTH_SERIES,
         validators=[RegexValidator(r"^\d{1,10}$", message="Only digits are allowed")],
         verbose_name="Серия паспорта",
+        default="",
     )
-    passport_number = models.IntegerField(
+    passport_number = models.CharField(
+        max_length=UserFieldsLength.MAX_LENGTH_NUMBER,
         validators=[RegexValidator(r"^\d{1,20}$", message="Only digits are allowed")],
         verbose_name="Номер паспорта",
+        default="",
     )
     passport_issued_by = models.CharField(
-        max_length=UserFieldsLength.MAX_LENGTH_ISSUED, verbose_name="Кем выдан паспорт"
+        max_length=UserFieldsLength.MAX_LENGTH_ISSUED,
+        verbose_name="Кем выдан паспорт",
+        default="",
     )
-    passport_issued_at = models.DateField(verbose_name="Дата выдачи")
+    passport_issued_at = models.DateField(
+        verbose_name="Дата выдачи", default=date.today
+    )
     accept_rules = models.BooleanField(
         "Cогласие с правами и обязанностями участника",
         default=False,

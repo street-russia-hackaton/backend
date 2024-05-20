@@ -16,6 +16,8 @@ class UserFieldsLength(IntEnum):
     MAX_LENGTH_USERNAME = 150
     # Максимальная длина поля email
     MAX_LENGTH_EMAIL = 150
+    # Максимальная длина поля phone
+    MAX_LENGTH_PHONE = 15
     # Максимальная длина поля first_name
     MAX_LENGTH_FIRST_NAME = 150
     # Максимальная длина поля last_name
@@ -31,6 +33,6 @@ class UserFieldsLength(IntEnum):
     # Масимальная длина поля series
     MAX_LENGTH_SERIES = 4
     # Масимальная длина поля number
-    MAX_LENGTH_NUMBER = 15
+    MAX_LENGTH_NUMBER = 6
     # Масимальная длина поля issued_by
     MAX_LENGTH_ISSUED = 150
