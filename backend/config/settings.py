@@ -23,9 +23,6 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "data",
-    "info",
-    "users",
 ]
 
 LOCAL_APPS = [
@@ -35,7 +32,14 @@ LOCAL_APPS = [
     "corsheaders",
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "data",
+    "info",
+    "users",
+    "news",
+    "events",
+    "core",
+]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
@@ -116,7 +120,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'ru-RU'
+AUTH_USER_MODEL = "users.Users"
+
+LANGUAGE_CODE = "ru-RU"
 
 TIME_ZONE = "UTC"
 

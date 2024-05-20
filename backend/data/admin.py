@@ -1,36 +1,49 @@
 from django.contrib import admin
 
-from .models import Cities, Regions, ObjectSport, ObjectSportImage, Disciplines, Partners
+from .models import (
+    Cities,
+    Disciplines,
+    ObjectSport,
+    ObjectSportImage,
+    Partners,
+    Regions,
+)
 
 
 class CitiesAdmin(admin.ModelAdmin):
-    list_display = ('city_title',)
-    list_filter = ('city_title',)
+    list_display = ("city_title",)
+    list_filter = ("city_title",)
 
 
 class RegionsAdmin(admin.ModelAdmin):
-    list_display = ('region_title',)
-    list_filter = ('region_title',)
+    list_display = ("region_title",)
+    list_filter = ("region_title",)
 
 
 class ObjectSportAdmin(admin.ModelAdmin):
-    list_display = ('object_sport_title', 'object_sport_indoor_outdoor', 'object_sport_address')
-    list_filter = ('object_sport_indoor_outdoor',)
+    list_display = ("object_sport_title", "object_sport_type", "object_sport_address")
+    list_filter = ("object_sport_type",)
 
 
 class ObjectSportImageAdmin(admin.ModelAdmin):
-    list_display = ('object_sport_image',)
-    list_filter = ('object_sport_image',)
+    list_display = ("object_sport_image",)
+    list_filter = ("object_sport_image",)
 
 
 class DisciplinesAdmin(admin.ModelAdmin):
-    list_display = ('disciplines_title', 'disciplines_video_url',)
-    list_filter = ('disciplines_information',)
+    list_display = (
+        "disciplines_title",
+        "disciplines_video_url",
+    )
+    list_filter = ("disciplines_information",)
 
 
 class PartnersAdmin(admin.ModelAdmin):
-    list_display = ('partners_title', 'partners_category',)
-    list_filter = ('partners_category',)
+    list_display = (
+        "partners_title",
+        "partners_category",
+    )
+    list_filter = ("partners_category",)
 
 
 admin.site.register(ObjectSportImage, ObjectSportImageAdmin)

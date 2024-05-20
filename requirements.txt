@@ -17,6 +17,7 @@ identify==2.5.36
 idna==3.7
 nodeenv==1.8.0
 oauthlib==3.2.2
+pillow==10.3.0
 platformdirs==4.2.1
 pre-commit==3.7.0
 pycparser==2.22
@@ -24,6 +25,7 @@ PyJWT==2.8.0
 python-dotenv==1.0.1
 python3-openid==3.2.0
 PyYAML==6.0.1
+qrcode==7.4.2
 requests==2.31.0
 requests-oauthlib==2.0.0
 setuptools==69.5.1
