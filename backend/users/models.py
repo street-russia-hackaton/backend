@@ -4,8 +4,10 @@ from core.constants import UserFieldsLength
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.contrib.auth.validators import UnicodeUsernameValidator
 
 from .choice_classes import RoleChoices
+from .validators import validate_username
 
 
 class Users(AbstractUser):
@@ -13,6 +15,7 @@ class Users(AbstractUser):
         max_length=UserFieldsLength.MAX_LENGTH_USERNAME,
         verbose_name="Логин",
         unique=True,
+        validators=(validate_username, UnicodeUsernameValidator()),
     )
     password = models.CharField(
         max_length=UserFieldsLength.MAX_LENGTH_PASSWORD, verbose_name="Пароль"

@@ -8,10 +8,10 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = os.environ.get("SECRET_KEY", "your-default-secret-key-for-development")
 
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = True
 
 
 ALLOWED_HOSTS = ("localhost", "127.0.0.1")
@@ -39,6 +39,7 @@ THIRD_PARTY_APPS = [
     "news",
     "events",
     "core",
+    "api",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
