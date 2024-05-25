@@ -36,6 +36,13 @@ class Users(AbstractUser):
         verbose_name="Телефон",
         unique=True,
     )
+    photo = models.ImageField(
+        "Фото",
+        upload_to="users/images/",
+        null=True,
+        default=None,
+        blank=True,
+    )
     position = models.CharField(
         max_length=UserFieldsLength.MAX_LENGTH_POSITION,
         verbose_name="Должность",
