@@ -30,17 +30,11 @@ LOCAL_APPS = [
     "djoser",
     "rest_framework_simplejwt",
     "corsheaders",
+    "rest_framework.authtoken",
+    "django_filters",
 ]
 
-THIRD_PARTY_APPS = [
-    "data",
-    "info",
-    "users",
-    "news",
-    "events",
-    "core",
-    "api",
-]
+THIRD_PARTY_APPS = ["data", "info", "users", "news", "events", "core", "api.v1"]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
@@ -116,6 +110,27 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+}
+
+DJOSER = {
+    "SERIALIZERS": {
+        "token": "djoser.serializers.TokenSerializer",
+    },
+    "PERMISSIONS": {
+        "user": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
+        "user_list": ["rest_framework.permissions.IsAuthenticatedOrReadOnly"],
+    },
+    "HIDE_USERS": False,
+}
 
 
 # Internationalization
