@@ -75,7 +75,7 @@ class Events(models.Model):
         default=False,
     )
     event_is_disabled = models.BooleanField(
-        "Для людей с ограниченными возможностями",
+        "Для людей с ограниченными возможностями",
         default=False,
     )
 
