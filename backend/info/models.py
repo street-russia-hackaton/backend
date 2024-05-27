@@ -141,3 +141,31 @@ class RegionalDivisions(models.Model):
     class Meta:
         verbose_name = "Региональное отделение"
         verbose_name_plural = "Региональные отделения"
+
+
+class Donats(models.Model):
+    email = models.ForeignKey(
+        Users,
+        on_delete=models.CASCADE,
+        related_name="donats_email",
+        verbose_name="Электронная почта для доната",
+    )
+    phone = models.ForeignKey(
+        Users,
+        on_delete=models.CASCADE,
+        related_name="donats_phone",
+        verbose_name="Номер телефона для доната",
+    )
+    donats_sum = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Сумма доната"
+    )
+    terms_agreed = models.BooleanField(
+        default=False, verbose_name="Согласие на договор-оферты"
+    )
+
+    def __str__(self):
+        return f"{self.email} - {self.phone} - {self.donats_sum}"
+
+    class Meta:
+        verbose_name = "Донат"
+        verbose_name_plural = "Донаты"
