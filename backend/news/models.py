@@ -1,5 +1,6 @@
 from core.constants import FieldLength
 from core.models import TimeStamp
+from data.models import Cities
 from django.db import models
 from info.models import Disciplines, RegionalDivisions
 from users.models import Users
@@ -20,11 +21,23 @@ class News(TimeStamp):
     news_disciplines = models.ManyToManyField(
         Disciplines, verbose_name="Дисциплины", related_name="news"
     )
+    event_city = models.ForeignKey(
+        Cities,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Город",
+        related_name="news",
+    )
     news_author = models.ForeignKey(
         Users,
         on_delete=models.CASCADE,
         verbose_name="Автор новости",
         related_name="news_author",
+    )
+    news_reading_time = models.IntegerField(
+        default=5,
+        verbose_name="Время на чтение (в минутах)",
     )
 
     def __str__(self):
