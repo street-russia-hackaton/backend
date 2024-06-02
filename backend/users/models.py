@@ -2,9 +2,9 @@ from datetime import date
 
 from core.constants import UserFieldsLength
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import RegexValidator
 from django.db import models
-from django.contrib.auth.validators import UnicodeUsernameValidator
 
 from .choice_classes import RoleChoices
 from .validators import validate_username
