@@ -23,7 +23,7 @@ class UsersViewSet(UserViewSet):
         Выбор сериализатора в зависимости от
         просмотра или создания пользователя.
         """
-        if self.request.method in SAFE_METHODS:
+        if self.request and self.request.method in SAFE_METHODS:
             return UsersSerializer
         return UsersCreateSerializer
 
